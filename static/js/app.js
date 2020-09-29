@@ -1,26 +1,26 @@
-// Use d3.json() to fetch data from JSON file
-// Incoming data is internally referred to as incomingData
+// Build a dashboard which responds when dropdown value is updated
 
+
+// building the Metadata tab related to the sample
 function buildMetadata(sample) {
     d3.json("samples.json").then((data) => {
       var metadata = data.metadata;
+      // create an array of samples
       var resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
       var result = resultArray[0];
+      // select the sample-metadata tab
       var PANEL = d3.select("#sample-metadata");
       PANEL.html("");
+      // loop through the object and append to the metadata tab
       Object.entries(result).forEach(([key, value]) => {
         PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
       });
-      var sample = "940"
-      console.log(result)})};
+      })};
 
 
 d3.json("samples.json").then((importedData) => {
-    //     // Populating dropdown
-  //  buildMetadata(sample){
-        //     d3.json("samples.json").then((data) => {
-        
-        //     // Populating dropdown
+
+    // get the raw data
     var data = importedData;
     var metadata = data.metadata;
     var samples = data.samples;
@@ -180,15 +180,16 @@ function optionChanged() {
     // get all the otu labels from that sample
     var otu_labels = samples.map(sample => sample.otu_labels);
 
-    // Note the extra brackets around 'x' and 'y'
+    // restyle the charts with the new values
     Plotly.restyle("bar", "x", [top_10_sample_values]);
     Plotly.restyle("bar", "y", [top_10_otu_ids]);
 
-    // Note the extra brackets around 'x' and 'y'
+    // restyle the charts with the new values
     Plotly.restyle("bubble", "x", [otu_ids_array_clean]);
     Plotly.restyle("bubble", "y", [sample_values_array]);
 
 
+    // update metadata with the new sample    
     var metadata = data.metadata;
     var resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
     var result = resultArray[0];
